@@ -40,8 +40,6 @@ public class BookController {
         return libroService.crearLibro(libro);
     }
 
-
-
 //    @GetMapping("/libros")
 //    @ResponseBody
 //    public List<BookResponseDTO> listarLibros(){
