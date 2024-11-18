@@ -31,4 +31,9 @@ public class LibroService {
         String nombreAutorC = "%" + nombreAutor + "%";
         return libroRepo.findByAutor(nombreAutorC);
     }
+
+    public List<Libro> listarLibrosPorCliente(String nombreCliente) {
+        String nombreClienteC = "%" + nombreCliente + "%";
+        return libroRepo.findByCliente(nombreClienteC);
+    }
 }

@@ -22,6 +22,9 @@ public interface LibroRepository extends JpaRepository<Libro, Short> {
 
     @Query(value = "SELECT l.* FROM libro l JOIN autor a ON l.idautorfk = a.idautor WHERE UPPER(unaccent(a.nombre)) like UPPER(unaccent(?1))", nativeQuery = true)
     List<Libro> findByAutor(String nombreAutor);
+
+    @Query(value = "SELECT l.* FROM libro l JOIN prestamo_libro pl ON l.idlibro = pl.idlibro JOIN prestamo p ON p.idprestamo = pl.idprestamo JOIN cliente c ON p.idclientefk = c.idcliente  WHERE UPPER(unaccent(c.nombre)) like UPPER(unaccent(?1))", nativeQuery = true)
+    List<Libro> findByCliente(String nombreCliente);
 }
 
 
