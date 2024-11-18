@@ -1,3 +1,7 @@
+
+-- Extencion para ignorar acentos
+CREATE EXTENSION IF NOT EXISTS unaccent;
+
 -- Crear tabla Categoria
 CREATE TABLE IF NOT EXISTS Categoria (
                                          idCategoria SMALLINT PRIMARY KEY,

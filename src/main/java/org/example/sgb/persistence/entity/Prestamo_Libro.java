@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @Data
 @Entity
-public class prestamo_libro implements Serializable {
+public class Prestamo_Libro implements Serializable {
 
     @EmbeddedId
     private prestamo_libroId id;

@@ -18,7 +18,6 @@ import java.time.LocalDateTime;
 @Builder
 
 @Entity
-@Table(name = "prestamo")
 public class Prestamo implements Serializable {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

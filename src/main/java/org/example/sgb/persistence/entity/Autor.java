@@ -13,11 +13,11 @@ import lombok.NoArgsConstructor;
 @Builder
 
 @Entity
-public class categoria{
+public class Autor {
     @Id
-    private short idcategoria;
+    private short idautor;
 
-    private String nombrecategoria;
+    private String nombre;
 
-    private String descripcion;
+    private String paisOrigen;
 }
