@@ -1,8 +1,7 @@
 package org.example.sgb.models;
 
-public record LibroDTO( short idlibro,
-                        String titulo,
+public record LibroDTO( String titulo,
                         String añopublicacion,
-                        boolean disponibilidad,
-                        String descripcion) {
+                        String descripcion,
+                        String autor) {
 }

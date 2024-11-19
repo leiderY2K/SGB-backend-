@@ -11,4 +11,6 @@ import java.util.List;
 @Repository
 public interface CategoriaRepository extends JpaRepository<Categoria, Short> {
 
+    //@Query("SELECT c.* FROM categoria c WHERE UPPER(unaccent(c.nombrecategoria)) = UPPER(unaccent(?1), , nativeQuery = true)")
+    Categoria findByNombreCategoria(String nombreCategoria);
 }

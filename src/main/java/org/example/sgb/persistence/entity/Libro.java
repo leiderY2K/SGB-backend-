@@ -14,16 +14,17 @@ import java.io.Serializable;
 @Builder
 
 @Entity
-@Table(name = "libro")  // en minúsculas para PostgreSQL
+@Table(name = "libro")
 public class Libro implements Serializable {
     @Id
-    @Column(name = "idlibro")  // en minúsculas para PostgreSQL
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idlibro")
     private Short idLibro;
 
     @Column(name = "titulo")
     private String titulo;
 
-    @Column(name = "añopublicacion")  // en minúsculas para PostgreSQL
+    @Column(name = "añopublicacion")
     private Short añoPublicacion;
 
     @Column(name = "disponibilidad")
@@ -33,10 +34,10 @@ public class Libro implements Serializable {
     private String descripcion;
 
     @ManyToOne
-    @JoinColumn(name = "idcategoriafk", referencedColumnName = "idcategoria")  // en minúsculas
+    @JoinColumn(name = "idcategoriafk", referencedColumnName = "idcategoria")
     private Categoria categoria;
 
     @ManyToOne
-    @JoinColumn(name = "idautorfk", referencedColumnName = "idautor")  // en minúsculas
+    @JoinColumn(name = "idautorfk", referencedColumnName = "idautor")
     private Autor autor;
 }

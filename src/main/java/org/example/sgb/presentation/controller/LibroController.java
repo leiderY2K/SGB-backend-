@@ -1,6 +1,11 @@
 package org.example.sgb.presentation.controller;
 
+import org.example.sgb.models.LibroDTO;
+import org.example.sgb.persistence.entity.Autor;
+import org.example.sgb.persistence.entity.Categoria;
 import org.example.sgb.persistence.entity.Libro;
+import org.example.sgb.presentation.services.AutorService;
+import org.example.sgb.presentation.services.CategoriaService;
 import org.example.sgb.presentation.services.LibroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,20 +14,31 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/libros")
 public class LibroController {  // Cambiar el nombre a LibroController
     private final LibroService libroService;
+    private final CategoriaService categoriaService;
+    private final AutorService autorService;
 
     @Autowired
-    public LibroController(LibroService libroService) {
+    public LibroController(LibroService libroService, CategoriaService categoriaService, AutorService autorService) {
         this.libroService = libroService;
+        this.categoriaService = categoriaService;
+        this.autorService = autorService;
     }
 
     @PostMapping
-    public Libro crearLibro(@RequestBody Libro libro){
-        return libroService.crearLibro(libro);
+    public ResponseEntity<?> guardarLibro(@RequestBody Libro libro) {
+        try {
+            Libro libroGuardado = libroService.guardarLibro(libro);
+            return ResponseEntity.status(HttpStatus.CREATED).body(libroGuardado);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Error al guardar el libro: " + e.getMessage()));
+        }
     }
 
     @GetMapping("/categoria/{nombreCategoria}")
@@ -42,7 +58,7 @@ public class LibroController {  // Cambiar el nombre a LibroController
         }
     }
 
-    @GetMapping("/nombre/{nombreAutor}")
+    @GetMapping("/autor/{nombreAutor}")
     public ResponseEntity<?> obtenerLibrosPorAutor(@PathVariable String nombreAutor) {
 
         try {
@@ -75,6 +91,60 @@ public class LibroController {  // Cambiar el nombre a LibroController
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Map.of("error", "Error al buscar libros: " + e.getMessage()));
+        }
+    }
+
+    @GetMapping("libro/{tituloLibro}")
+    public ResponseEntity<?> obtenerLibros(@PathVariable String tituloLibro){
+        try {
+            List<Libro> libros = libroService.listarLibros(tituloLibro);
+            if (libros.isEmpty()) {
+                // Si no se encuentra el libro, buscar en Google Books API
+                LibroDTO booksFromApi = libroService.buscarEnGoogleBooksAPI(tituloLibro);
+                if (booksFromApi ==null) {
+                    return ResponseEntity
+                            .status(HttpStatus.NOT_FOUND)
+                            .body(Map.of("mensaje", "No se encontraron libros con el título: " + tituloLibro));
+                }
+                return ResponseEntity.ok(booksFromApi);
+            }
+            return ResponseEntity.ok(libros);
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Error al buscar libros: " + e.getMessage()));
+        }
+    }
+
+    @PutMapping("/libro/{id}")
+    public ResponseEntity<?> actualizarLibro(@PathVariable("id") Short id, @RequestBody Libro libro) {
+        try {
+            Libro libroActualizado = libroService.actualizarLibro(id, libro);
+            return ResponseEntity.ok(libroActualizado);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", "Libro con ID " + id + " no encontrado"));
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Error al actualizar el libro: " + e.getMessage()));
+        }
+    }
+
+    @DeleteMapping("/eliminarLibro/{id}")
+    public ResponseEntity<?> EliminarLibro(@PathVariable("id") Short id, @RequestBody Libro libro) {
+        try {
+            Libro libroEliminado = libroService.eliminarLibro(id, libro);
+            return ResponseEntity.ok(libroEliminado);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", "Libro con ID " + id + " no encontrado"));
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Error al eliminar el libro: " + e.getMessage()));
         }
     }
 }

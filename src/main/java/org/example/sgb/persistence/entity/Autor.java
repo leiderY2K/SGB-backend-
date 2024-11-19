@@ -1,7 +1,6 @@
 package org.example.sgb.persistence.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,11 +12,17 @@ import lombok.NoArgsConstructor;
 @Builder
 
 @Entity
+@Table(name = "autor")
 public class Autor {
     @Id
-    private short idautor;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idautor")
+    private Short idAutor;
 
+    @Column(name = "nombre")
     private String nombre;
 
+    @Column(name = "paisOrigen")
     private String paisOrigen;
+
 }

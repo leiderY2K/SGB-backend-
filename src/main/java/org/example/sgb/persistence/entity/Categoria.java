@@ -1,9 +1,6 @@
 package org.example.sgb.persistence.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,13 +12,14 @@ import lombok.NoArgsConstructor;
 @Builder
 
 @Entity
-@Table(name = "categoria")  // en minúsculas para PostgreSQL
+@Table(name = "categoria")
 public class Categoria {
     @Id
-    @Column(name = "idcategoria")  // en minúsculas para PostgreSQL
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idcategoria")
     private Short idCategoria;
 
-    @Column(name = "nombrecategoria")  // en minúsculas para PostgreSQL
+    @Column(name = "nombrecategoria")
     private String nombreCategoria;
 
     @Column(name = "descripcion")
