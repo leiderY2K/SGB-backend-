@@ -4,6 +4,7 @@
 
 - Java 21 o superior
 - Gradle 6.0 o superior
+- PostgreSQL 8.x o superior
 
 ## Configuración del Proyecto
 
@@ -25,6 +26,18 @@ cd tu_proyecto
 ./gradlew build
 ```
 
+## Configuración de la Base de Datos
+Es necesario ejecutar el script SQL create-database.sql que se encuentra en src/main/resources/persistence para poder montar la base de datos de manera local. Sigue estos pasos:
+
+1. Conéctate a tu instancia de PostgreSQL.
+
+2. Ejecuta el script SQL:
+
+```sh
+psql -U postgres -f src/main/resources/persistence/create-database.sql
+```
+Si todo sale bien, esto creará la estructura necesaria de la base de datos para que el proyecto funcione correctamente.
+
 ## Ejecución del Proyecto
 Para ejecutar la aplicación, usa el siguiente comando:
 
@@ -33,7 +46,4 @@ Para ejecutar la aplicación, usa el siguiente comando:
 ```
 
 ## Endpoints
-GET /api/v1/resource - Descripción del endpoint
-
-## Licencia
-Este proyecto está licenciado bajo la Licencia MIT. Mira el archivo LICENSE para más detalles.
+La descripción de los Endpoints está pendiente.
