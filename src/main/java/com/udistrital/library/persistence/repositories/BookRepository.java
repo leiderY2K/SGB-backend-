@@ -21,6 +21,6 @@ public interface BookRepository extends JpaRepository<Book, Short> {
 	@Query(value = "SELECT b.* FROM book b JOIN author a ON b.author_id = a.id WHERE UPPER(unaccent(a.name)) LIKE '%' || UPPER(unaccent(:author)) || '%'", nativeQuery = true)
 	List<Book> findByAuthor(@Param("author") String author);
 
-	@Query(value = "SELECT b.* FROM book b JOIN loan_book lb ON b.id = lb.book_id JOIN loan l ON l.id = lb.loan_id JOIN app_user u ON l.user_id = u.id WHERE UPPER(unaccent(u.name)) LIKE '%' || UPPER(unaccent(:client)) || '%'", nativeQuery = true)
+	@Query(value = "SELECT distinct b.* FROM book b JOIN loan_book lb ON b.id = lb.book_id JOIN loan l ON l.id = lb.loan_id JOIN app_user u ON l.user_id = u.id WHERE UPPER(unaccent(u.name)) LIKE '%' || UPPER(unaccent(:client)) || '%'", nativeQuery = true)
 	List<Book> findLoanedByClient(@Param("client") String client);
 }
