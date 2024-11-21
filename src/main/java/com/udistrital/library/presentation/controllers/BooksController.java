@@ -45,14 +45,20 @@ public class BooksController {
 		bookService.delete(request);
 		return ResponseEntity.noContent().build();
 	}
-	
+
 	@GetMapping
 	public ResponseEntity<List<BookDTO>> findAll() {
 		var books = bookService.findAll();
 		return ResponseEntity.ok(books);
 	}
 
-	@GetMapping("/{title}")
+	@GetMapping("/{id}")
+	public ResponseEntity<BookDTO> findById(@PathVariable("id") Short bookId) {
+		var book = bookService.findById(bookId);
+		return ResponseEntity.ok(book);
+	}
+
+	@GetMapping("/title/{title}")
 	public ResponseEntity<List<BookDTO>> findByTitle(@PathVariable("title") String bookTitle) {
 		var books = bookService.getByTitle(bookTitle);
 		return ResponseEntity.ok(books);

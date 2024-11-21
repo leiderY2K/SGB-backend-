@@ -42,6 +42,14 @@ public class Loan implements Serializable {
 	@Column(name = "end_date")
 	private Date endDate;
 
+	public static Loan create(User user, Date startDate, Date endDate) {
+		Loan loan = new Loan();
+		loan.setUser(user);
+		loan.setStartDate(startDate);
+		loan.setEndDate(endDate);
+		return loan;
+	}
+
 	public void setId(Short id) { this.id = id; }
 
 	public Short getId() { return id; }

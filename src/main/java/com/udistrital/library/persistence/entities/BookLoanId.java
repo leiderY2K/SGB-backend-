@@ -12,7 +12,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class LoanBookId implements Serializable {
+public class BookLoanId implements Serializable {
 
 	private static final long serialVersionUID = 4892439025283357614L;
 
@@ -22,21 +22,26 @@ public class LoanBookId implements Serializable {
 	@Column(name = "book_id", nullable = false)
 	private short bookId;
 
-	public short getLoanId() { return loanId; }
-
 	public void setLoanId(short loanId) { this.loanId = loanId; }
 
-	public short getBookId() { return bookId; }
+	public short getLoanId() { return loanId; }
 
 	public void setBookId(short bookId) { this.bookId = bookId; }
 
+	public short getBookId() { return bookId; }
+
+	public static BookLoanId create(short loanId, short bookId) {
+		var bookLoanId = new BookLoanId();
+		bookLoanId.setLoanId(loanId);
+		bookLoanId.setBookId(bookId);
+		return bookLoanId;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null || getClass() != obj.getClass())
-			return false;
-		LoanBookId that = (LoanBookId) obj;
+		if (this == obj) return true;
+		if (obj == null || getClass() != obj.getClass()) return false;
+		BookLoanId that = (BookLoanId) obj;
 		return loanId == that.loanId && bookId == that.bookId;
 	}
 

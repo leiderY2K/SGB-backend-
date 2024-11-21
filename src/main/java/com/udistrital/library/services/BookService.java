@@ -35,6 +35,8 @@ public class BookService {
 
 	private static final String NO_AUTHOR_MSG = "El autor no existe en la base de datos";
 
+	private static final String NO_BOOK_MSG = "El libro no existe en la base de datos";
+
 	private static final String NO_BOOK_TO_UPDATE_MSG = "El libro a actualizar no existe en la base de datos";
 
 	private static final String NO_BOOK_TO_DELETE_MSG = "El libro a eliminar no existe en la base de datos";
@@ -75,6 +77,11 @@ public class BookService {
 	public void delete(DeleteBookRequest request) {
 		var book = bookRepo.findById(request.id()).orElseThrow(() -> new NoSuchElementException(NO_BOOK_TO_DELETE_MSG));
 		bookRepo.delete(book);
+	}
+
+	public BookDTO findById(Short id) {
+		var book = bookRepo.findById(id).orElseThrow(() -> new NoSuchElementException(NO_BOOK_MSG));
+		return convertToDto(book);
 	}
 
 	public List<BookDTO> findAll() {
